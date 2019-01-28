@@ -3,6 +3,14 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <RootNamespace>eV.Measure</RootNamespace>
+    <Authors>Yuuki Wesp</Authors>
+    <PackageLicenseUrl>https://raw.githubusercontent.com/0xF6/eV/master/LICENSE</PackageLicenseUrl>
+    <PackageProjectUrl>https://github.com/0xF6/eV</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/0xF6/eV</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Copyright>2019 (C) Anders Gustafsson, Cureos AB, Yuuki Wesp</Copyright>
   </PropertyGroup>
 
 </Project>
