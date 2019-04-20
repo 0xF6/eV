@@ -4,7 +4,7 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <RootNamespace>eV.Measure</RootNamespace>
     <Authors>Yuuki Wesp</Authors>
-    <PackageLicenseUrl>https://raw.githubusercontent.com/0xF6/eV/master/LICENSE</PackageLicenseUrl>
+    <PackageLicenseUrl></PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/0xF6/eV</PackageProjectUrl>
     <RepositoryUrl>https://github.com/0xF6/eV</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
@@ -13,11 +13,12 @@
     <Copyright>2019 (C) Anders Gustafsson, Cureos AB, Yuuki Wesp</Copyright>
     <Version>1.3.0</Version>
     <Description>A library for controlling and parsing a unit of measurement electron-volt. 
+Electron volt unit converter.
 This project is part of a closed project ElementarySandbox.</Description>
     <PackageReleaseNotes>Initial release</PackageReleaseNotes>
     <AssemblyVersion>1.3.0.0</AssemblyVersion>
     <FileVersion>1.3.0.0</FileVersion>
-    <PackageIconUrl>https://upload.wikimedia.org/wikipedia/commons/thumb/b/b7/Proton_quark_structure.svg/401px-Proton_quark_structure.svg.png</PackageIconUrl>
+    <PackageIconUrl>https://raw.githubusercontent.com/0xF6/eV/master/icon/icon.png</PackageIconUrl>
     <PackageTags>elementary, electron-volt, physics, volt, measure, electron</PackageTags>
   </PropertyGroup>
 
