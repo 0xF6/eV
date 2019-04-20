@@ -1,107 +1,56 @@
 ﻿namespace eV.Measure
 {
     using System;
-    using System.Runtime.Serialization;
-    using AmountType = System.Single;
-    using sys;
     using System.Globalization;
-
-    public partial class Energy : IQuantity<Energy>, IMeasure<Energy>, IEquatable<Energy>, IComparable<Energy>
+    using System.Runtime.Serialization;
+    using sys;
+    using AmountType = System.Single;
+    [DataContract]
+    public partial class Force : IQuantity<Force>, IMeasure<Force>, IEquatable<Force>, IComparable<Force>
     {
-        public Energy() { }
+        public Force() { }
+        #region FIELDS
 
+        // ReSharper disable once InconsistentNaming
+        private static readonly IMeasureFactory<Force> factory = new MeasureFactory();
 
-        #region OPERATORS
+        // ReSharper disable once InconsistentNaming
+        private static readonly QuantityDimension dimension = new QuantityDimension(1, 1, -2, 0, 0, 0, 0);
 
-        /// <summary>
-        /// A division operator for Energy and Length objects.
-        /// </summary>
-        /// <param name="lhs">Left-hand side Energy object.</param>
-        /// <param name="rhs">Right-hand side Length object.</param>
-        /// <returns>Result of division between <paramref name="lhs"/> and <paramref name="rhs"/>, returned in quantity Force.</returns>
-        public static Force operator /(Energy lhs, Length rhs)
-        {
-            return new Force(lhs.Amount / rhs.Amount);
-        }
+        public static readonly Unit<Force> Newton = new ConstantConverterUnit<Force>("N");
 
-        /// <summary>
-        /// A division operator for Energy and Length objects.
-        /// </summary>
-        /// <param name="lhs">Left-hand side Energy object.</param>
-        /// <param name="rhs">Right-hand side Length object (any object implementing IMeasure&lt;Length&gt; interface).</param>
-        /// <returns>Result of division between <paramref name="lhs"/> and <paramref name="rhs"/>, returned in quantity Force.</returns>
-        public static Force operator /(Energy lhs, IMeasure<Length> rhs)
-        {
-            return new Force(lhs.Amount / rhs.StandardAmount);
-        }
-
-        /// <summary>
-        /// A division operator for Energy and Mass objects.
-        /// </summary>
-        /// <param name="lhs">Left-hand side Energy object.</param>
-        /// <param name="rhs">Right-hand side Mass object.</param>
-        /// <returns>Result of division between <paramref name="lhs"/> and <paramref name="rhs"/>, returned in quantity AbsorbedDose.</returns>
-        public static AbsorbedDose operator /(Energy lhs, Mass rhs)
-        {
-            return new AbsorbedDose(lhs.Amount / rhs.Amount);
-        }
-
-        /// <summary>
-        /// A division operator for Energy and Mass objects.
-        /// </summary>
-        /// <param name="lhs">Left-hand side Energy object.</param>
-        /// <param name="rhs">Right-hand side Mass object (any object implementing IMeasure&lt;Mass&gt; interface).</param>
-        /// <returns>Result of division between <paramref name="lhs"/> and <paramref name="rhs"/>, returned in quantity AbsorbedDose.</returns>
-        public static AbsorbedDose operator /(Energy lhs, IMeasure<Mass> rhs)
-        {
-            return new AbsorbedDose(lhs.Amount / rhs.StandardAmount);
-        }
-
-        #endregion
-
-        private static readonly IMeasureFactory<Energy> factory = new MeasureFactory();
-
-        private static readonly QuantityDimension dimension = new QuantityDimension(2, 1, -2, 0, 0, 0, 0);
-
-
-        public static readonly Unit<Energy> Joule = new ConstantConverterUnit<Energy>("J");
-
-        public static readonly Unit<Energy> NanoJoule = new ConstantConverterUnit<Energy>(UnitPrefix.Nano);
-        public static readonly Unit<Energy> MicroJoule = new ConstantConverterUnit<Energy>(UnitPrefix.Micro);
-        public static readonly Unit<Energy> MilliJoule = new ConstantConverterUnit<Energy>(UnitPrefix.Milli);
-        public static readonly Unit<Energy> CentiJoule = new ConstantConverterUnit<Energy>(UnitPrefix.Centi);
-        public static readonly Unit<Energy> DeciJoule = new ConstantConverterUnit<Energy>(UnitPrefix.Deci);
-        public static readonly Unit<Energy> DekaJoule = new ConstantConverterUnit<Energy>(UnitPrefix.Deka);
-        public static readonly Unit<Energy> HectoJoule = new ConstantConverterUnit<Energy>(UnitPrefix.Hecto);
-        public static readonly Unit<Energy> KiloJoule = new ConstantConverterUnit<Energy>(UnitPrefix.Kilo);
-        public static readonly Unit<Energy> MegaJoule = new ConstantConverterUnit<Energy>(UnitPrefix.Mega);
-        public static readonly Unit<Energy> GigaJoule = new ConstantConverterUnit<Energy>(UnitPrefix.Giga);
-
-        public static readonly Unit<Energy> ElectronVolt = new ConstantConverterUnit<Energy>("eV", Factors.JoulesPerElectronVolt);
-        public static readonly Unit<Energy> KiloElectronVolt = new ConstantConverterUnit<Energy>("keV", Factors.Kilo * Factors.JoulesPerElectronVolt);
-        public static readonly Unit<Energy> MegaElectronVolt = new ConstantConverterUnit<Energy>("MeV", Factors.Mega * Factors.JoulesPerElectronVolt);
-        public static readonly Unit<Energy> GigaElectronVolt = new ConstantConverterUnit<Energy>("GeV", Factors.Giga * Factors.JoulesPerElectronVolt);
-        public static readonly Unit<Energy> TeraElectronVolt = new ConstantConverterUnit<Energy>("TeV", Factors.Tera * Factors.JoulesPerElectronVolt);
+        public static readonly Unit<Force> NanoNewton = new ConstantConverterUnit<Force>(UnitPrefix.Nano);
+        public static readonly Unit<Force> MicroNewton = new ConstantConverterUnit<Force>(UnitPrefix.Micro);
+        public static readonly Unit<Force> MilliNewton = new ConstantConverterUnit<Force>(UnitPrefix.Milli);
+        public static readonly Unit<Force> CentiNewton = new ConstantConverterUnit<Force>(UnitPrefix.Centi);
+        public static readonly Unit<Force> DeciNewton = new ConstantConverterUnit<Force>(UnitPrefix.Deci);
+        public static readonly Unit<Force> DekaNewton = new ConstantConverterUnit<Force>(UnitPrefix.Deka);
+        public static readonly Unit<Force> HectoNewton = new ConstantConverterUnit<Force>(UnitPrefix.Hecto);
+        public static readonly Unit<Force> KiloNewton = new ConstantConverterUnit<Force>(UnitPrefix.Kilo);
+        public static readonly Unit<Force> MegaNewton = new ConstantConverterUnit<Force>(UnitPrefix.Mega);
+        public static readonly Unit<Force> GigaNewton = new ConstantConverterUnit<Force>(UnitPrefix.Giga);
 
         [DataMember]
         private readonly AmountType amount;
+
+        #endregion
 
         #region CONSTRUCTORS
 
         /// <summary>
         /// Static constructor for defining static class properties
         /// </summary>
-        static Energy()
+        static Force()
         {
-            Zero = new Energy(Constants.Zero);
-            Epsilon = new Energy(Constants.MachineEpsilon);
+            Zero = new Force(Constants.Zero);
+            Epsilon = new Force(Constants.MachineEpsilon);
         }
 
         /// <summary>
-        /// Initializes a energy object from an object implementing the IMeasure&lt;Energy&gt; interface
+        /// Initializes a force object from an object implementing the IMeasure&lt;Force&gt; interface
         /// </summary>
-        /// <param name="other">Object implemeting the IMeasure&lt;Energy&gt; interface</param>
-        public Energy(IMeasure<Energy> other)
+        /// <param name="other">Object implemeting the IMeasure&lt;Force&gt; interface</param>
+        public Force(IMeasure<Force> other)
             : this(other.StandardAmount)
         {
         }
@@ -110,7 +59,7 @@
         /// Initializes a measure to the specified amount and standard unit of the measured quantity
         /// </summary>
         /// <param name="amount">Measured amount in standard unit of the specified quantity</param>
-        public Energy(double amount)
+        public Force(double amount)
         {
             this.amount = (AmountType)amount;
         }
@@ -119,7 +68,7 @@
         /// Initializes a measure to the specified amount and standard unit of the measured quantity
         /// </summary>
         /// <param name="amount">Measured amount in standard unit of the specified quantity</param>
-        public Energy(float amount)
+        public Force(float amount)
         {
             this.amount = (AmountType)amount;
         }
@@ -128,7 +77,7 @@
         /// Initializes a measure to the specified amount and standard unit of the measured quantity
         /// </summary>
         /// <param name="amount">Measured amount in standard unit of the specified quantity</param>
-        public Energy(decimal amount)
+        public Force(decimal amount)
         {
             this.amount = (AmountType)amount;
         }
@@ -139,7 +88,7 @@
         /// <param name="amount">Measured amount</param>
         /// <param name="unit">Unit of measure</param>
         /// <exception cref="ArgumentNullException">if the specified unit is null</exception>
-        public Energy(double amount, IUnit<Energy> unit)
+        public Force(double amount, IUnit<Force> unit)
         {
             if (unit == null) throw new ArgumentNullException("unit");
             this.amount = unit.ConvertAmountToStandardUnit((AmountType)amount);
@@ -151,7 +100,7 @@
         /// <param name="amount">Measured amount</param>
         /// <param name="unit">Unit of measure</param>
         /// <exception cref="ArgumentNullException">if the specified unit is null</exception>
-        public Energy(float amount, IUnit<Energy> unit)
+        public Force(float amount, IUnit<Force> unit)
         {
             if (unit == null) throw new ArgumentNullException("unit");
             this.amount = unit.ConvertAmountToStandardUnit((AmountType)amount);
@@ -163,7 +112,7 @@
         /// <param name="amount">Measured amount</param>
         /// <param name="unit">Unit of measure</param>
         /// <exception cref="ArgumentNullException">if the specified unit is null</exception>
-        public Energy(decimal amount, IUnit<Energy> unit)
+        public Force(decimal amount, IUnit<Force> unit)
         {
             if (unit == null) throw new ArgumentNullException("unit");
             this.amount = unit.ConvertAmountToStandardUnit((AmountType)amount);
@@ -171,32 +120,47 @@
 
         #endregion
 
-        #region Implementation of IQuantity<Energy>
+        #region Implementation of IQuantity<Force>
 
         /// <summary>
         /// Gets the display name of the quantity
         /// </summary>
-        public string DisplayName => "Energy";
+        public string DisplayName
+        {
+            get { return "Force"; }
+        }
 
         /// <summary>
         /// Gets the physical dimension of the quantity in terms of SI units
         /// </summary>
-        QuantityDimension IQuantity.Dimension => dimension;
+        QuantityDimension IQuantity.Dimension
+        {
+            get { return dimension; }
+        }
 
         /// <summary>
         /// Gets the standard unit associated with the quantity
         /// </summary>
-        IUnit IQuantity.StandardUnit => this.StandardUnit;
+        IUnit IQuantity.StandardUnit
+        {
+            get { return this.StandardUnit; }
+        }
 
         /// <summary>
         /// Gets the standard unit associated with the quantity
         /// </summary>
-        public IUnit<Energy> StandardUnit => Joule;
+        public IUnit<Force> StandardUnit
+        {
+            get { return Newton; }
+        }
 
         /// <summary>
         /// Gets the measure factory associated with the quantity.
         /// </summary>
-        IMeasureFactory<Energy> IQuantity<Energy>.Factory => factory;
+        IMeasureFactory<Force> IQuantity<Force>.Factory
+        {
+            get { return factory; }
+        }
 
         /// <summary>
         /// Indicates whether the current object is equal to another object of the same type.
@@ -208,13 +172,15 @@
         bool IEquatable<IQuantity>.Equals(IQuantity other)
         {
             if (other == null)
+            {
                 throw new ArgumentNullException("other");
-            return other is Energy;
+            }
+            return other is Force;
         }
 
         #endregion
 
-        #region Implementation of IMeasure<Energy>
+        #region Implementation of IMeasure<Force>
 
         /// <summary>
         /// Gets the measured amount in the <see cref="StandardUnit">standard unit of measure</see>
@@ -225,7 +191,7 @@
         }
 
         /// <summary>
-        /// Gets the measured amount in the standard unit of measure for the energy quantity
+        /// Gets the measured amount in the standard unit of measure for the force quantity
         /// </summary>
         public AmountType StandardAmount
         {
@@ -248,24 +214,24 @@
         /// <returns>Measured amount converted into <paramref name="unit">specified unit</paramref></returns>
         AmountType IMeasure.GetAmount(IUnit unit)
         {
-            return this.GetAmount(unit as IUnit<Energy>);
+            return this.GetAmount(unit as IUnit<Force>);
         }
 
         /// <summary>
         /// Gets a new unit specific measure based on this measure but in the <paramref name="unit">specified unit</paramref>
         /// </summary>
         /// <param name="unit">Unit in which the new measure should be specified</param>
-        /// <exception cref="ArgumentNullException">if specified unit is null or if specified unit is not of the Energy quantity.</exception>
+        /// <exception cref="ArgumentNullException">if specified unit is null or if specified unit is not of the Force quantity.</exception>
         IMeasure IMeasure.this[IUnit unit]
         {
-            get { return this[unit as IUnit<Energy>]; }
+            get { return this[unit as IUnit<Force>]; }
         }
 
         /// <summary>
         /// Gets the quantity-typed unit of measure
         /// </summary>
         /// <remarks>Always return the standard unit of measure</remarks>
-        public IUnit<Energy> Unit
+        public IUnit<Force> Unit
         {
             get { return this.StandardUnit; }
         }
@@ -275,7 +241,7 @@
         /// </summary>
         /// <param name="unit">Unit to which the measured amount should be converted</param>
         /// <returns>Measured amount converted into <paramref name="unit">specified unit</paramref></returns>
-        public AmountType GetAmount(IUnit<Energy> unit)
+        public AmountType GetAmount(IUnit<Force> unit)
         {
             if (unit == null) throw new ArgumentNullException("unit");
             return unit.ConvertStandardAmountToUnit(this.amount);
@@ -285,7 +251,7 @@
         /// Gets a new unit specific measure based on this measure but in the <paramref name="unit">specified unit</paramref>
         /// </summary>
         /// <param name="unit">Unit in which the new measure should be specified</param>
-        IMeasure<Energy> IMeasure<Energy>.this[IUnit<Energy> unit]
+        IMeasure<Force> IMeasure<Force>.this[IUnit<Force> unit]
         {
             get { return this[unit]; }
         }
@@ -297,7 +263,7 @@
         /// true if the current object is equal to the <paramref name="other"/> parameter; otherwise, false.
         /// </returns>
         /// <param name="other">An object to compare with this object.</param>
-        bool IEquatable<IMeasure<Energy>>.Equals(IMeasure<Energy> other)
+        bool IEquatable<IMeasure<Force>>.Equals(IMeasure<Force> other)
         {
             if (ReferenceEquals(null, other)) return false;
             return this.amount.Equals(other.StandardAmount);
@@ -312,7 +278,7 @@
         /// <param name="other">An object to compare with this object.</param>
         bool IEquatable<IMeasure>.Equals(IMeasure other)
         {
-            return this.Equals(other as IMeasure<Energy>);
+            return this.Equals(other as IMeasure<Force>);
         }
 
         /// <summary>
@@ -326,7 +292,7 @@
         ///    Greater than zero  This object is greater than <paramref name="other"/>. 
         /// </returns>
         /// <param name="other">An object to compare with this object.</param>
-        int IComparable<IMeasure<Energy>>.CompareTo(IMeasure<Energy> other)
+        int IComparable<IMeasure<Force>>.CompareTo(IMeasure<Force> other)
         {
             if (other == null) throw new ArgumentNullException("other");
             return this.amount.CompareTo(other.StandardAmount);
@@ -346,13 +312,13 @@
         int IComparable<IMeasure>.CompareTo(IMeasure other)
         {
             if (other == null) throw new ArgumentNullException("other");
-            if (!(other.Unit.Quantity is IMeasure<Energy>)) throw new ArgumentException("Measures are of different quantities");
+            if (!(other.Unit.Quantity is IMeasure<Force>)) throw new ArgumentException("Measures are of different quantities");
             return this.amount.CompareTo(other.StandardAmount);
         }
 
         #endregion
 
-        #region Implementation of IEquatable<Energy>
+        #region Implementation of IEquatable<Force>
 
         /// <summary>
         /// Indicates whether the current object is equal to another object of the same type.
@@ -361,14 +327,14 @@
         /// true if the current object is equal to the <paramref name="other"/> parameter; otherwise, false.
         /// </returns>
         /// <param name="other">An object to compare with this object.</param>
-        public bool Equals(Energy other)
+        public bool Equals(Force other)
         {
             return this.amount.Equals(other.amount);
         }
 
         #endregion
 
-        #region Implementation of IComparable<Energy>
+        #region Implementation of IComparable<Force>
 
         /// <summary>
         /// Compares the current object with another object of the same type.
@@ -381,7 +347,7 @@
         ///    Greater than zero  This object is greater than <paramref name="other"/>. 
         /// </returns>
         /// <param name="other">An object to compare with this object.</param>
-        public int CompareTo(Energy other)
+        public int CompareTo(Force other)
         {
             return this.amount.CompareTo(other.amount);
         }
@@ -394,12 +360,12 @@
         /// Gets a new unit preserving measure based on this measure but in the <paramref name="unit">specified unit</paramref>
         /// </summary>
         /// <param name="unit">Unit in which the new measure should be specified</param>
-        public Measure<Energy> this[IUnit<Energy> unit]
+        public Measure<Force> this[IUnit<Force> unit]
         {
             get
             {
                 if (unit == null) throw new ArgumentNullException("unit");
-                return new Measure<Energy>(this.GetAmount(unit), unit);
+                return new Measure<Force>(this.GetAmount(unit), unit);
             }
         }
 
@@ -407,9 +373,9 @@
 
         #region PROPERTIES
 
-        public static Energy Zero { get; private set; }
+        public static Force Zero { get; private set; }
 
-        public static Energy Epsilon { get; private set; }
+        public static Force Epsilon { get; private set; }
 
         #endregion
 
@@ -426,7 +392,7 @@
         /// <filterpriority>2</filterpriority>
         public override bool Equals(object obj)
         {
-            return obj is IMeasure<Energy> && this.Equals((IMeasure<Energy>)obj);
+            return obj is IMeasure<Force> && this.Equals((IMeasure<Force>)obj);
         }
 
         /// <summary>
@@ -489,33 +455,33 @@
         #region OPERATORS
 
         /// <summary>
-        /// Casts a double value to a Energy object
+        /// Casts a double value to a Force object
         /// </summary>
         /// <param name="standardAmount">Standard amount</param>
-        /// <returns>Energy representation of <paramref name="standardAmount"/> in unit Joule</returns>
-        public static explicit operator Energy(double standardAmount)
+        /// <returns>Force representation of <paramref name="standardAmount"/> in unit Newton</returns>
+        public static explicit operator Force(double standardAmount)
         {
-            return new Energy(standardAmount);
+            return new Force(standardAmount);
         }
 
         /// <summary>
-        /// Casts a float value to a Energy object
+        /// Casts a float value to a Force object
         /// </summary>
         /// <param name="standardAmount">Standard amount</param>
-        /// <returns>Energy representation of <paramref name="standardAmount"/> in unit Joule</returns>
-        public static explicit operator Energy(float standardAmount)
+        /// <returns>Force representation of <paramref name="standardAmount"/> in unit Newton</returns>
+        public static explicit operator Force(float standardAmount)
         {
-            return new Energy(standardAmount);
+            return new Force(standardAmount);
         }
 
         /// <summary>
-        /// Casts a decimal value to a Energy object
+        /// Casts a decimal value to a Force object
         /// </summary>
         /// <param name="standardAmount">Standard amount</param>
-        /// <returns>Energy representation of <paramref name="standardAmount"/> in unit Joule</returns>
-        public static explicit operator Energy(decimal standardAmount)
+        /// <returns>Force representation of <paramref name="standardAmount"/> in unit Newton</returns>
+        public static explicit operator Force(decimal standardAmount)
         {
-            return new Energy(standardAmount);
+            return new Force(standardAmount);
         }
 
         /// <summary>
@@ -524,9 +490,9 @@
         /// <param name="lhs">First measure term</param>
         /// <param name="rhs">Second measure term</param>
         /// <returns>Sum of the two measure objects in the unit of the <paramref name="lhs">left-hand side measure</paramref></returns>
-        public static Energy operator +(Energy lhs, Energy rhs)
+        public static Force operator +(Force lhs, Force rhs)
         {
-            return new Energy(lhs.amount + rhs.amount);
+            return new Force(lhs.amount + rhs.amount);
         }
 
         /// <summary>
@@ -535,9 +501,9 @@
         /// <param name="lhs">First measure term</param>
         /// <param name="rhs">Second measure term (any object implementing the IMeasure interface)</param>
         /// <returns>Sum of the two measure objects in the unit of the <paramref name="lhs">left-hand side measure</paramref></returns>
-        public static Energy operator +(Energy lhs, IMeasure<Energy> rhs)
+        public static Force operator +(Force lhs, IMeasure<Force> rhs)
         {
-            return new Energy(lhs.amount + rhs.StandardAmount);
+            return new Force(lhs.amount + rhs.StandardAmount);
         }
 
         /// <summary>
@@ -546,9 +512,9 @@
         /// <param name="lhs">First measure object</param>
         /// <param name="rhs">Second measure object</param>
         /// <returns>Difference of the measure objects</returns>
-        public static Energy operator -(Energy lhs, Energy rhs)
+        public static Force operator -(Force lhs, Force rhs)
         {
-            return new Energy(lhs.amount - rhs.amount);
+            return new Force(lhs.amount - rhs.amount);
         }
 
         /// <summary>
@@ -557,9 +523,9 @@
         /// <param name="lhs">First measure object</param>
         /// <param name="rhs">Second measure object (any object implementing the IMeasure interface)</param>
         /// <returns>Difference of the measure objects</returns>
-        public static Energy operator -(Energy lhs, IMeasure<Energy> rhs)
+        public static Force operator -(Force lhs, IMeasure<Force> rhs)
         {
-            return new Energy(lhs.amount - rhs.StandardAmount);
+            return new Force(lhs.amount - rhs.StandardAmount);
         }
 
         /// <summary>
@@ -568,9 +534,9 @@
         /// <param name="scalar">Floating-point scalar</param>
         /// <param name="measure">Measure object</param>
         /// <returns>Product of the scalar and the measure object</returns>
-        public static Energy operator *(double scalar, Energy measure)
+        public static Force operator *(double scalar, Force measure)
         {
-            return new Energy((AmountType)scalar * measure.amount);
+            return new Force((AmountType)scalar * measure.amount);
         }
 
         /// <summary>
@@ -579,9 +545,9 @@
         /// <param name="scalar">Floating-point scalar</param>
         /// <param name="measure">Measure object</param>
         /// <returns>Product of the scalar and the measure object</returns>
-        public static Energy operator *(float scalar, Energy measure)
+        public static Force operator *(float scalar, Force measure)
         {
-            return new Energy((AmountType)scalar * measure.amount);
+            return new Force((AmountType)scalar * measure.amount);
         }
 
         /// <summary>
@@ -590,9 +556,9 @@
         /// <param name="scalar">Floating-point scalar</param>
         /// <param name="measure">Measure object</param>
         /// <returns>Product of the scalar and the measure object</returns>
-        public static Energy operator *(decimal scalar, Energy measure)
+        public static Force operator *(decimal scalar, Force measure)
         {
-            return new Energy((AmountType)scalar * measure.amount);
+            return new Force((AmountType)scalar * measure.amount);
         }
 
         /// <summary>
@@ -601,9 +567,9 @@
         /// <param name="measure">Measure object</param>
         /// <param name="scalar">Floating-point scalar</param>
         /// <returns>Product of the measure object and the scalar</returns>
-        public static Energy operator *(Energy measure, double scalar)
+        public static Force operator *(Force measure, double scalar)
         {
-            return new Energy(measure.amount * (AmountType)scalar);
+            return new Force(measure.amount * (AmountType)scalar);
         }
 
         /// <summary>
@@ -612,9 +578,9 @@
         /// <param name="measure">Measure object</param>
         /// <param name="scalar">Floating-point scalar</param>
         /// <returns>Product of the measure object and the scalar</returns>
-        public static Energy operator *(Energy measure, float scalar)
+        public static Force operator *(Force measure, float scalar)
         {
-            return new Energy(measure.amount * (AmountType)scalar);
+            return new Force(measure.amount * (AmountType)scalar);
         }
 
         /// <summary>
@@ -623,9 +589,9 @@
         /// <param name="measure">Measure object</param>
         /// <param name="scalar">Floating-point scalar</param>
         /// <returns>Product of the measure object and the scalar</returns>
-        public static Energy operator *(Energy measure, decimal scalar)
+        public static Force operator *(Force measure, decimal scalar)
         {
-            return new Energy(measure.amount * (AmountType)scalar);
+            return new Force(measure.amount * (AmountType)scalar);
         }
 
         /// <summary>
@@ -634,9 +600,9 @@
         /// <param name="measure">Measure object</param>
         /// <param name="scalar">Floating-point number</param>
         /// <returns>Product of the measure object and the number</returns>
-        public static Energy operator *(Energy measure, IMeasure<Number> scalar)
+        public static Force operator *(Force measure, IMeasure<Number> scalar)
         {
-            return new Energy(measure.amount * scalar.StandardAmount);
+            return new Force(measure.amount * scalar.StandardAmount);
         }
 
         /// <summary>
@@ -645,9 +611,9 @@
         /// <param name="measure">measure object</param>
         /// <param name="scalar">Floating-point scalar</param>
         /// <returns>Quotient of the measure object and the scalar</returns>
-        public static Energy operator /(Energy measure, double scalar)
+        public static Force operator /(Force measure, double scalar)
         {
-            return new Energy(measure.amount / (AmountType)scalar);
+            return new Force(measure.amount / (AmountType)scalar);
         }
 
         /// <summary>
@@ -656,9 +622,9 @@
         /// <param name="measure">measure object</param>
         /// <param name="scalar">Floating-point scalar</param>
         /// <returns>Quotient of the measure object and the scalar</returns>
-        public static Energy operator /(Energy measure, float scalar)
+        public static Force operator /(Force measure, float scalar)
         {
-            return new Energy(measure.amount / (AmountType)scalar);
+            return new Force(measure.amount / (AmountType)scalar);
         }
 
         /// <summary>
@@ -667,9 +633,9 @@
         /// <param name="measure">measure object</param>
         /// <param name="scalar">Floating-point scalar</param>
         /// <returns>Quotient of the measure object and the scalar</returns>
-        public static Energy operator /(Energy measure, decimal scalar)
+        public static Force operator /(Force measure, decimal scalar)
         {
-            return new Energy(measure.amount / (AmountType)scalar);
+            return new Force(measure.amount / (AmountType)scalar);
         }
 
         /// <summary>
@@ -678,9 +644,9 @@
         /// <param name="measure">measure object</param>
         /// <param name="scalar">Floating-point number</param>
         /// <returns>Quotient of the measure object and the number</returns>
-        public static Energy operator /(Energy measure, IMeasure<Number> scalar)
+        public static Force operator /(Force measure, IMeasure<Number> scalar)
         {
-            return new Energy(measure.amount / scalar.StandardAmount);
+            return new Force(measure.amount / scalar.StandardAmount);
         }
 
         /// <summary>
@@ -689,7 +655,7 @@
         /// <param name="dividend">Dividend of specific quantity</param>
         /// <param name="divisor">Divisor of same quantity as dividend</param>
         /// <returns>Quotient of the two measure objects</returns>
-        public static Number operator /(Energy dividend, Energy divisor)
+        public static Number operator /(Force dividend, Force divisor)
         {
             return new Number(dividend.amount / divisor.amount);
         }
@@ -700,7 +666,7 @@
         /// <param name="dividend">Dividend of specific quantity</param>
         /// <param name="divisor">Divisor of same quantity as dividend</param>
         /// <returns>Quotient of the two measure objects</returns>
-        public static Number operator /(Energy dividend, IMeasure<Energy> divisor)
+        public static Number operator /(Force dividend, IMeasure<Force> divisor)
         {
             return new Number(dividend.amount / divisor.StandardAmount);
         }
@@ -711,29 +677,29 @@
         /// <param name="lhs">First object</param>
         /// <param name="rhs">Second object</param>
         /// <returns>true if first measure object is less than second measure object; false otherwise</returns>
-        public static bool operator <(Energy lhs, Energy rhs)
+        public static bool operator <(Force lhs, Force rhs)
         {
             return lhs.amount < rhs.amount;
         }
 
         /// <summary>
-        /// Less than operator for measure objects, where right-hand side may be any object implementing the IMeasure&lt;Energy&gt; interface
+        /// Less than operator for measure objects, where right-hand side may be any object implementing the IMeasure&lt;Force&gt; interface
         /// </summary>
         /// <param name="lhs">First object</param>
-        /// <param name="rhs">Second object (any object implementing IMeasure&lt;Energy&gt; interface)</param>
+        /// <param name="rhs">Second object (any object implementing IMeasure&lt;Force&gt; interface)</param>
         /// <returns>true if first measure object is less than second measure object; false otherwise</returns>
-        public static bool operator <(Energy lhs, IMeasure<Energy> rhs)
+        public static bool operator <(Force lhs, IMeasure<Force> rhs)
         {
             return lhs.amount < rhs.StandardAmount;
         }
 
         /// <summary>
-        /// Less than operator for measure objects, where left-hand side may be any object implementing the IMeasure&lt;Energy&gt; interface
+        /// Less than operator for measure objects, where left-hand side may be any object implementing the IMeasure&lt;Force&gt; interface
         /// </summary>
-        /// <param name="lhs">First object (any object implementing IMeasure&lt;Energy&gt; interface)</param>
+        /// <param name="lhs">First object (any object implementing IMeasure&lt;Force&gt; interface)</param>
         /// <param name="rhs">Second object</param>
         /// <returns>true if first measure object is less than second measure object; false otherwise</returns>
-        public static bool operator <(IMeasure<Energy> lhs, Energy rhs)
+        public static bool operator <(IMeasure<Force> lhs, Force rhs)
         {
             return lhs.StandardAmount < rhs.amount;
         }
@@ -744,29 +710,29 @@
         /// <param name="lhs">First object</param>
         /// <param name="rhs">Second object</param>
         /// <returns>true if first measure object is greater than second measure object; false otherwise</returns>
-        public static bool operator >(Energy lhs, Energy rhs)
+        public static bool operator >(Force lhs, Force rhs)
         {
             return lhs.amount > rhs.amount;
         }
 
         /// <summary>
-        /// Greater than operator for measure objects, where right-hand side may be any object implementing the IMeasure&lt;Energy&gt; interface
+        /// Greater than operator for measure objects, where right-hand side may be any object implementing the IMeasure&lt;Force&gt; interface
         /// </summary>
         /// <param name="lhs">First object</param>
-        /// <param name="rhs">Second object (any object implementing IMeasure&lt;Energy&gt; interface)</param>
+        /// <param name="rhs">Second object (any object implementing IMeasure&lt;Force&gt; interface)</param>
         /// <returns>true if first measure object is greater than second measure object; false otherwise</returns>
-        public static bool operator >(Energy lhs, IMeasure<Energy> rhs)
+        public static bool operator >(Force lhs, IMeasure<Force> rhs)
         {
             return lhs.amount > rhs.StandardAmount;
         }
 
         /// <summary>
-        /// Greater than operator for measure objects, where left-hand side may be any object implementing the IMeasure&lt;Energy&gt; interface
+        /// Greater than operator for measure objects, where left-hand side may be any object implementing the IMeasure&lt;Force&gt; interface
         /// </summary>
-        /// <param name="lhs">First object (any object implementing IMeasure&lt;Energy&gt; interface)</param>
+        /// <param name="lhs">First object (any object implementing IMeasure&lt;Force&gt; interface)</param>
         /// <param name="rhs">Second object</param>
         /// <returns>true if first measure object is greater than second measure object; false otherwise</returns>
-        public static bool operator >(IMeasure<Energy> lhs, Energy rhs)
+        public static bool operator >(IMeasure<Force> lhs, Force rhs)
         {
             return lhs.StandardAmount > rhs.amount;
         }
@@ -777,29 +743,29 @@
         /// <param name="lhs">First object</param>
         /// <param name="rhs">Second object</param>
         /// <returns>true if first measure object is less than or equal to second measure object; false otherwise</returns>
-        public static bool operator <=(Energy lhs, Energy rhs)
+        public static bool operator <=(Force lhs, Force rhs)
         {
             return lhs.amount <= rhs.amount;
         }
 
         /// <summary>
-        /// Less than or equal to operator for measure objects, where right-hand side may be any object implementing the IMeasure&lt;Energy&gt; interface
+        /// Less than or equal to operator for measure objects, where right-hand side may be any object implementing the IMeasure&lt;Force&gt; interface
         /// </summary>
         /// <param name="lhs">First object</param>
-        /// <param name="rhs">Second object (any object implementing IMeasure&lt;Energy&gt; interface)</param>
+        /// <param name="rhs">Second object (any object implementing IMeasure&lt;Force&gt; interface)</param>
         /// <returns>true if first measure object is less than or equal to second measure object; false otherwise</returns>
-        public static bool operator <=(Energy lhs, IMeasure<Energy> rhs)
+        public static bool operator <=(Force lhs, IMeasure<Force> rhs)
         {
             return lhs.amount <= rhs.StandardAmount;
         }
 
         /// <summary>
-        /// Less than or equal to operator for measure objects, where left-hand side may be any object implementing the IMeasure&lt;Energy&gt; interface
+        /// Less than or equal to operator for measure objects, where left-hand side may be any object implementing the IMeasure&lt;Force&gt; interface
         /// </summary>
-        /// <param name="lhs">First object (any object implementing IMeasure&lt;Energy&gt; interface)</param>
+        /// <param name="lhs">First object (any object implementing IMeasure&lt;Force&gt; interface)</param>
         /// <param name="rhs">Second object</param>
         /// <returns>true if first measure object is less than or equal to second measure object; false otherwise</returns>
-        public static bool operator <=(IMeasure<Energy> lhs, Energy rhs)
+        public static bool operator <=(IMeasure<Force> lhs, Force rhs)
         {
             return lhs.StandardAmount <= rhs.amount;
         }
@@ -810,29 +776,29 @@
         /// <param name="lhs">First object</param>
         /// <param name="rhs">Second object</param>
         /// <returns>true if first measure object is greater than or equal to second measure object; false otherwise</returns>
-        public static bool operator >=(Energy lhs, Energy rhs)
+        public static bool operator >=(Force lhs, Force rhs)
         {
             return lhs.amount >= rhs.amount;
         }
 
         /// <summary>
-        /// Greater than or equal to operator for measure objects, where right-hand side may be any object implementing the IMeasure&lt;Energy&gt; interface
+        /// Greater than or equal to operator for measure objects, where right-hand side may be any object implementing the IMeasure&lt;Force&gt; interface
         /// </summary>
         /// <param name="lhs">First object</param>
-        /// <param name="rhs">Second object (any object implementing IMeasure&lt;Energy&gt; interface)</param>
+        /// <param name="rhs">Second object (any object implementing IMeasure&lt;Force&gt; interface)</param>
         /// <returns>true if first measure object is greater than or equal to second measure object; false otherwise</returns>
-        public static bool operator >=(Energy lhs, IMeasure<Energy> rhs)
+        public static bool operator >=(Force lhs, IMeasure<Force> rhs)
         {
             return lhs.amount >= rhs.StandardAmount;
         }
 
         /// <summary>
-        /// Greater than or equal to operator for measure objects, where left-hand side may be any object implementing the IMeasure&lt;Energy&gt; interface
+        /// Greater than or equal to operator for measure objects, where left-hand side may be any object implementing the IMeasure&lt;Force&gt; interface
         /// </summary>
-        /// <param name="lhs">First object (any object implementing IMeasure&lt;Energy&gt; interface)</param>
+        /// <param name="lhs">First object (any object implementing IMeasure&lt;Force&gt; interface)</param>
         /// <param name="rhs">Second object</param>
         /// <returns>true if first measure object is greater than or equal to second measure object; false otherwise</returns>
-        public static bool operator >=(IMeasure<Energy> lhs, Energy rhs)
+        public static bool operator >=(IMeasure<Force> lhs, Force rhs)
         {
             return lhs.StandardAmount >= rhs.amount;
         }
@@ -843,29 +809,29 @@
         /// <param name="lhs">First object</param>
         /// <param name="rhs">Second object</param>
         /// <returns>true if the two measure objects are equal; false otherwise</returns>
-        public static bool operator ==(Energy lhs, Energy rhs)
+        public static bool operator ==(Force lhs, Force rhs)
         {
             return lhs.amount == rhs.amount;
         }
 
         /// <summary>
-        /// Equality operator for measure objects, where right-hand side may be any object implementing the IMeasure&lt;Energy&gt; interface
+        /// Equality operator for measure objects, where right-hand side may be any object implementing the IMeasure&lt;Force&gt; interface
         /// </summary>
         /// <param name="lhs">First object</param>
-        /// <param name="rhs">Second object (any object implementing IMeasure&lt;Energy&gt; interface)</param>
+        /// <param name="rhs">Second object (any object implementing IMeasure&lt;Force&gt; interface)</param>
         /// <returns>true if the two measure objects are equal; false otherwise</returns>
-        public static bool operator ==(Energy lhs, IMeasure<Energy> rhs)
+        public static bool operator ==(Force lhs, IMeasure<Force> rhs)
         {
             return lhs.amount == rhs.StandardAmount;
         }
 
         /// <summary>
-        /// Equality operator for measure objects, where left-hand side may be any object implementing the IMeasure&lt;Energy&gt; interface
+        /// Equality operator for measure objects, where left-hand side may be any object implementing the IMeasure&lt;Force&gt; interface
         /// </summary>
-        /// <param name="lhs">First object (any object implementing IMeasure&lt;Energy&gt; interface)</param>
+        /// <param name="lhs">First object (any object implementing IMeasure&lt;Force&gt; interface)</param>
         /// <param name="rhs">Second object</param>
         /// <returns>true if the two measure objects are equal; false otherwise</returns>
-        public static bool operator ==(IMeasure<Energy> lhs, Energy rhs)
+        public static bool operator ==(IMeasure<Force> lhs, Force rhs)
         {
             return lhs.StandardAmount == rhs.amount;
         }
@@ -876,47 +842,47 @@
         /// <param name="lhs">First object</param>
         /// <param name="rhs">Second object</param>
         /// <returns>true if the two measure objects are not equal; false if they are equal</returns>
-        public static bool operator !=(Energy lhs, Energy rhs)
+        public static bool operator !=(Force lhs, Force rhs)
         {
             return lhs.amount != rhs.amount;
         }
 
         /// <summary>
-        /// Inequality operator for measure objects, where right-hand side may be any object implementing the IMeasure&lt;Energy&gt; interface
+        /// Inequality operator for measure objects, where right-hand side may be any object implementing the IMeasure&lt;Force&gt; interface
         /// </summary>
         /// <param name="lhs">First object</param>
-        /// <param name="rhs">Second object (any object implementing IMeasure&lt;Energy&gt; interface)</param>
+        /// <param name="rhs">Second object (any object implementing IMeasure&lt;Force&gt; interface)</param>
         /// <returns>true if the two measure objects are not equal; false if they are equal</returns>
-        public static bool operator !=(Energy lhs, IMeasure<Energy> rhs)
+        public static bool operator !=(Force lhs, IMeasure<Force> rhs)
         {
             return lhs.amount != rhs.StandardAmount;
         }
 
         /// <summary>
-        /// Inequality operator for measure objects, where left-hand side may be any object implementing the IMeasure&lt;Energy&gt; interface
+        /// Inequality operator for measure objects, where left-hand side may be any object implementing the IMeasure&lt;Force&gt; interface
         /// </summary>
-        /// <param name="lhs">First object (any object implementing IMeasure&lt;Energy&gt; interface)</param>
+        /// <param name="lhs">First object (any object implementing IMeasure&lt;Force&gt; interface)</param>
         /// <param name="rhs">Second object</param>
         /// <returns>true if the two measure objects are not equal; false if they are equal</returns>
-        public static bool operator !=(IMeasure<Energy> lhs, Energy rhs)
+        public static bool operator !=(IMeasure<Force> lhs, Force rhs)
         {
             return lhs.StandardAmount != rhs.amount;
         }
 
         #endregion
 
-        #region Private class implementation of IMeasureFactory<Energy>
+        #region Private class implementation of IMeasureFactory<Force>
 
-        private class MeasureFactory : IMeasureFactory<Energy>
+        private class MeasureFactory : IMeasureFactory<Force>
         {
             /// <summary>
             /// Creates a new standard unit measure at the specified <paramref name="amount"/>.
             /// </summary>
             /// <param name="amount">Amount.</param>
             /// <returns>Standard unit measure at the specified <paramref name="amount"/>.</returns>
-            public Energy New(double amount)
+            public Force New(double amount)
             {
-                return new Energy(amount);
+                return new Force(amount);
             }
 
             /// <summary>
@@ -925,9 +891,9 @@
             /// <param name="amount">Amount.</param>
             /// <param name="unit">Unit.</param>
             /// <returns>Standard unit measure.</returns>
-            public Energy New(double amount, IUnit<Energy> unit)
+            public Force New(double amount, IUnit<Force> unit)
             {
-                return new Energy(amount, unit);
+                return new Force(amount, unit);
             }
 
             /// <summary>
@@ -935,9 +901,9 @@
             /// </summary>
             /// <param name="amount">Amount.</param>
             /// <returns>Standard unit measure at the specified <paramref name="amount"/>.</returns>
-            public Energy New(float amount)
+            public Force New(float amount)
             {
-                return new Energy(amount);
+                return new Force(amount);
             }
 
             /// <summary>
@@ -946,9 +912,9 @@
             /// <param name="amount">Amount.</param>
             /// <param name="unit">Unit.</param>
             /// <returns>Standard unit measure.</returns>
-            public Energy New(float amount, IUnit<Energy> unit)
+            public Force New(float amount, IUnit<Force> unit)
             {
-                return new Energy(amount, unit);
+                return new Force(amount, unit);
             }
 
             /// <summary>
@@ -956,9 +922,9 @@
             /// </summary>
             /// <param name="amount">Amount.</param>
             /// <returns>Standard unit measure at the specified <paramref name="amount"/>.</returns>
-            public Energy New(decimal amount)
+            public Force New(decimal amount)
             {
-                return new Energy(amount);
+                return new Force(amount);
             }
 
             /// <summary>
@@ -967,9 +933,9 @@
             /// <param name="amount">Amount.</param>
             /// <param name="unit">Unit.</param>
             /// <returns>Standard unit measure.</returns>
-            public Energy New(decimal amount, IUnit<Energy> unit)
+            public Force New(decimal amount, IUnit<Force> unit)
             {
-                return new Energy(amount, unit);
+                return new Force(amount, unit);
             }
 
             /// <summary>
@@ -978,9 +944,9 @@
             /// <param name="amount">Amount.</param>
             /// <param name="unit">Unit.</param>
             /// <returns>Measure from the specified <paramref name="amount"/> and <paramref name="unit"/>.</returns>
-            public IMeasure<Energy> NewPreserveUnit(double amount, IUnit<Energy> unit)
+            public IMeasure<Force> NewPreserveUnit(double amount, IUnit<Force> unit)
             {
-                return new Measure<Energy>(amount, unit);
+                return new Measure<Force>(amount, unit);
             }
 
             /// <summary>
@@ -989,9 +955,9 @@
             /// <param name="amount">Amount.</param>
             /// <param name="unit">Unit.</param>
             /// <returns>Measure from the specified <paramref name="amount"/> and <paramref name="unit"/>.</returns>
-            public IMeasure<Energy> NewPreserveUnit(float amount, IUnit<Energy> unit)
+            public IMeasure<Force> NewPreserveUnit(float amount, IUnit<Force> unit)
             {
-                return new Measure<Energy>(amount, unit);
+                return new Measure<Force>(amount, unit);
             }
 
             /// <summary>
@@ -1000,13 +966,12 @@
             /// <param name="amount">Amount.</param>
             /// <param name="unit">Unit.</param>
             /// <returns>Measure from the specified <paramref name="amount"/> and <paramref name="unit"/>.</returns>
-            public IMeasure<Energy> NewPreserveUnit(decimal amount, IUnit<Energy> unit)
+            public IMeasure<Force> NewPreserveUnit(decimal amount, IUnit<Force> unit)
             {
-                return new Measure<Energy>(amount, unit);
+                return new Measure<Force>(amount, unit);
             }
         }
 
         #endregion
-
     }
 }

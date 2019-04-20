@@ -1,107 +1,57 @@
 ﻿namespace eV.Measure
 {
     using System;
-    using System.Runtime.Serialization;
-    using AmountType = System.Single;
-    using sys;
     using System.Globalization;
-
-    public partial class Energy : IQuantity<Energy>, IMeasure<Energy>, IEquatable<Energy>, IComparable<Energy>
+    using System.Runtime.Serialization;
+    using sys;
+    using AmountType = System.Single;
+    [DataContract]
+    public partial class AbsorbedDose : IQuantity<AbsorbedDose>, IMeasure<AbsorbedDose>, IEquatable<AbsorbedDose>, IComparable<AbsorbedDose>
     {
-        public Energy() { }
+        public AbsorbedDose() { }
 
+        #region FIELDS
 
-        #region OPERATORS
+        // ReSharper disable once InconsistentNaming
+        private static readonly IMeasureFactory<AbsorbedDose> factory = new MeasureFactory();
 
-        /// <summary>
-        /// A division operator for Energy and Length objects.
-        /// </summary>
-        /// <param name="lhs">Left-hand side Energy object.</param>
-        /// <param name="rhs">Right-hand side Length object.</param>
-        /// <returns>Result of division between <paramref name="lhs"/> and <paramref name="rhs"/>, returned in quantity Force.</returns>
-        public static Force operator /(Energy lhs, Length rhs)
-        {
-            return new Force(lhs.Amount / rhs.Amount);
-        }
+        // ReSharper disable once InconsistentNaming
+        private static readonly QuantityDimension dimension = new QuantityDimension(2, 0, -2, 0, 0, 0, 0);
 
-        /// <summary>
-        /// A division operator for Energy and Length objects.
-        /// </summary>
-        /// <param name="lhs">Left-hand side Energy object.</param>
-        /// <param name="rhs">Right-hand side Length object (any object implementing IMeasure&lt;Length&gt; interface).</param>
-        /// <returns>Result of division between <paramref name="lhs"/> and <paramref name="rhs"/>, returned in quantity Force.</returns>
-        public static Force operator /(Energy lhs, IMeasure<Length> rhs)
-        {
-            return new Force(lhs.Amount / rhs.StandardAmount);
-        }
+        public static readonly Unit<AbsorbedDose> Gray = new ConstantConverterUnit<AbsorbedDose>("Gy");
 
-        /// <summary>
-        /// A division operator for Energy and Mass objects.
-        /// </summary>
-        /// <param name="lhs">Left-hand side Energy object.</param>
-        /// <param name="rhs">Right-hand side Mass object.</param>
-        /// <returns>Result of division between <paramref name="lhs"/> and <paramref name="rhs"/>, returned in quantity AbsorbedDose.</returns>
-        public static AbsorbedDose operator /(Energy lhs, Mass rhs)
-        {
-            return new AbsorbedDose(lhs.Amount / rhs.Amount);
-        }
+        public static readonly Unit<AbsorbedDose> NanoGray = new ConstantConverterUnit<AbsorbedDose>(UnitPrefix.Nano);
+        public static readonly Unit<AbsorbedDose> MicroGray = new ConstantConverterUnit<AbsorbedDose>(UnitPrefix.Micro);
+        public static readonly Unit<AbsorbedDose> MilliGray = new ConstantConverterUnit<AbsorbedDose>(UnitPrefix.Milli);
+        public static readonly Unit<AbsorbedDose> CentiGray = new ConstantConverterUnit<AbsorbedDose>(UnitPrefix.Centi);
+        public static readonly Unit<AbsorbedDose> DeciGray = new ConstantConverterUnit<AbsorbedDose>(UnitPrefix.Deci);
+        public static readonly Unit<AbsorbedDose> DekaGray = new ConstantConverterUnit<AbsorbedDose>(UnitPrefix.Deka);
+        public static readonly Unit<AbsorbedDose> HectoGray = new ConstantConverterUnit<AbsorbedDose>(UnitPrefix.Hecto);
+        public static readonly Unit<AbsorbedDose> KiloGray = new ConstantConverterUnit<AbsorbedDose>(UnitPrefix.Kilo);
 
-        /// <summary>
-        /// A division operator for Energy and Mass objects.
-        /// </summary>
-        /// <param name="lhs">Left-hand side Energy object.</param>
-        /// <param name="rhs">Right-hand side Mass object (any object implementing IMeasure&lt;Mass&gt; interface).</param>
-        /// <returns>Result of division between <paramref name="lhs"/> and <paramref name="rhs"/>, returned in quantity AbsorbedDose.</returns>
-        public static AbsorbedDose operator /(Energy lhs, IMeasure<Mass> rhs)
-        {
-            return new AbsorbedDose(lhs.Amount / rhs.StandardAmount);
-        }
-
-        #endregion
-
-        private static readonly IMeasureFactory<Energy> factory = new MeasureFactory();
-
-        private static readonly QuantityDimension dimension = new QuantityDimension(2, 1, -2, 0, 0, 0, 0);
-
-
-        public static readonly Unit<Energy> Joule = new ConstantConverterUnit<Energy>("J");
-
-        public static readonly Unit<Energy> NanoJoule = new ConstantConverterUnit<Energy>(UnitPrefix.Nano);
-        public static readonly Unit<Energy> MicroJoule = new ConstantConverterUnit<Energy>(UnitPrefix.Micro);
-        public static readonly Unit<Energy> MilliJoule = new ConstantConverterUnit<Energy>(UnitPrefix.Milli);
-        public static readonly Unit<Energy> CentiJoule = new ConstantConverterUnit<Energy>(UnitPrefix.Centi);
-        public static readonly Unit<Energy> DeciJoule = new ConstantConverterUnit<Energy>(UnitPrefix.Deci);
-        public static readonly Unit<Energy> DekaJoule = new ConstantConverterUnit<Energy>(UnitPrefix.Deka);
-        public static readonly Unit<Energy> HectoJoule = new ConstantConverterUnit<Energy>(UnitPrefix.Hecto);
-        public static readonly Unit<Energy> KiloJoule = new ConstantConverterUnit<Energy>(UnitPrefix.Kilo);
-        public static readonly Unit<Energy> MegaJoule = new ConstantConverterUnit<Energy>(UnitPrefix.Mega);
-        public static readonly Unit<Energy> GigaJoule = new ConstantConverterUnit<Energy>(UnitPrefix.Giga);
-
-        public static readonly Unit<Energy> ElectronVolt = new ConstantConverterUnit<Energy>("eV", Factors.JoulesPerElectronVolt);
-        public static readonly Unit<Energy> KiloElectronVolt = new ConstantConverterUnit<Energy>("keV", Factors.Kilo * Factors.JoulesPerElectronVolt);
-        public static readonly Unit<Energy> MegaElectronVolt = new ConstantConverterUnit<Energy>("MeV", Factors.Mega * Factors.JoulesPerElectronVolt);
-        public static readonly Unit<Energy> GigaElectronVolt = new ConstantConverterUnit<Energy>("GeV", Factors.Giga * Factors.JoulesPerElectronVolt);
-        public static readonly Unit<Energy> TeraElectronVolt = new ConstantConverterUnit<Energy>("TeV", Factors.Tera * Factors.JoulesPerElectronVolt);
+        public static readonly Unit<AbsorbedDose> Rad = new ConstantConverterUnit<AbsorbedDose>("rad", Factors.Centi);
 
         [DataMember]
         private readonly AmountType amount;
+
+        #endregion
 
         #region CONSTRUCTORS
 
         /// <summary>
         /// Static constructor for defining static class properties
         /// </summary>
-        static Energy()
+        static AbsorbedDose()
         {
-            Zero = new Energy(Constants.Zero);
-            Epsilon = new Energy(Constants.MachineEpsilon);
+            Zero = new AbsorbedDose(Constants.Zero);
+            Epsilon = new AbsorbedDose(Constants.MachineEpsilon);
         }
 
         /// <summary>
-        /// Initializes a energy object from an object implementing the IMeasure&lt;Energy&gt; interface
+        /// Initializes a absorbed dose object from an object implementing the IMeasure&lt;AbsorbedDose&gt; interface
         /// </summary>
-        /// <param name="other">Object implemeting the IMeasure&lt;Energy&gt; interface</param>
-        public Energy(IMeasure<Energy> other)
+        /// <param name="other">Object implemeting the IMeasure&lt;AbsorbedDose&gt; interface</param>
+        public AbsorbedDose(IMeasure<AbsorbedDose> other)
             : this(other.StandardAmount)
         {
         }
@@ -110,7 +60,7 @@
         /// Initializes a measure to the specified amount and standard unit of the measured quantity
         /// </summary>
         /// <param name="amount">Measured amount in standard unit of the specified quantity</param>
-        public Energy(double amount)
+        public AbsorbedDose(double amount)
         {
             this.amount = (AmountType)amount;
         }
@@ -119,7 +69,7 @@
         /// Initializes a measure to the specified amount and standard unit of the measured quantity
         /// </summary>
         /// <param name="amount">Measured amount in standard unit of the specified quantity</param>
-        public Energy(float amount)
+        public AbsorbedDose(float amount)
         {
             this.amount = (AmountType)amount;
         }
@@ -128,7 +78,7 @@
         /// Initializes a measure to the specified amount and standard unit of the measured quantity
         /// </summary>
         /// <param name="amount">Measured amount in standard unit of the specified quantity</param>
-        public Energy(decimal amount)
+        public AbsorbedDose(decimal amount)
         {
             this.amount = (AmountType)amount;
         }
@@ -139,7 +89,7 @@
         /// <param name="amount">Measured amount</param>
         /// <param name="unit">Unit of measure</param>
         /// <exception cref="ArgumentNullException">if the specified unit is null</exception>
-        public Energy(double amount, IUnit<Energy> unit)
+        public AbsorbedDose(double amount, IUnit<AbsorbedDose> unit)
         {
             if (unit == null) throw new ArgumentNullException("unit");
             this.amount = unit.ConvertAmountToStandardUnit((AmountType)amount);
@@ -151,7 +101,7 @@
         /// <param name="amount">Measured amount</param>
         /// <param name="unit">Unit of measure</param>
         /// <exception cref="ArgumentNullException">if the specified unit is null</exception>
-        public Energy(float amount, IUnit<Energy> unit)
+        public AbsorbedDose(float amount, IUnit<AbsorbedDose> unit)
         {
             if (unit == null) throw new ArgumentNullException("unit");
             this.amount = unit.ConvertAmountToStandardUnit((AmountType)amount);
@@ -163,7 +113,7 @@
         /// <param name="amount">Measured amount</param>
         /// <param name="unit">Unit of measure</param>
         /// <exception cref="ArgumentNullException">if the specified unit is null</exception>
-        public Energy(decimal amount, IUnit<Energy> unit)
+        public AbsorbedDose(decimal amount, IUnit<AbsorbedDose> unit)
         {
             if (unit == null) throw new ArgumentNullException("unit");
             this.amount = unit.ConvertAmountToStandardUnit((AmountType)amount);
@@ -171,32 +121,47 @@
 
         #endregion
 
-        #region Implementation of IQuantity<Energy>
+        #region Implementation of IQuantity<AbsorbedDose>
 
         /// <summary>
         /// Gets the display name of the quantity
         /// </summary>
-        public string DisplayName => "Energy";
+        public string DisplayName
+        {
+            get { return "Absorbed Dose"; }
+        }
 
         /// <summary>
         /// Gets the physical dimension of the quantity in terms of SI units
         /// </summary>
-        QuantityDimension IQuantity.Dimension => dimension;
+        QuantityDimension IQuantity.Dimension
+        {
+            get { return dimension; }
+        }
 
         /// <summary>
         /// Gets the standard unit associated with the quantity
         /// </summary>
-        IUnit IQuantity.StandardUnit => this.StandardUnit;
+        IUnit IQuantity.StandardUnit
+        {
+            get { return this.StandardUnit; }
+        }
 
         /// <summary>
         /// Gets the standard unit associated with the quantity
         /// </summary>
-        public IUnit<Energy> StandardUnit => Joule;
+        public IUnit<AbsorbedDose> StandardUnit
+        {
+            get { return Gray; }
+        }
 
         /// <summary>
         /// Gets the measure factory associated with the quantity.
         /// </summary>
-        IMeasureFactory<Energy> IQuantity<Energy>.Factory => factory;
+        IMeasureFactory<AbsorbedDose> IQuantity<AbsorbedDose>.Factory
+        {
+            get { return factory; }
+        }
 
         /// <summary>
         /// Indicates whether the current object is equal to another object of the same type.
@@ -208,13 +173,15 @@
         bool IEquatable<IQuantity>.Equals(IQuantity other)
         {
             if (other == null)
+            {
                 throw new ArgumentNullException("other");
-            return other is Energy;
+            }
+            return other is AbsorbedDose;
         }
 
         #endregion
 
-        #region Implementation of IMeasure<Energy>
+        #region Implementation of IMeasure<AbsorbedDose>
 
         /// <summary>
         /// Gets the measured amount in the <see cref="StandardUnit">standard unit of measure</see>
@@ -225,7 +192,7 @@
         }
 
         /// <summary>
-        /// Gets the measured amount in the standard unit of measure for the energy quantity
+        /// Gets the measured amount in the standard unit of measure for the absorbed dose quantity
         /// </summary>
         public AmountType StandardAmount
         {
@@ -248,24 +215,24 @@
         /// <returns>Measured amount converted into <paramref name="unit">specified unit</paramref></returns>
         AmountType IMeasure.GetAmount(IUnit unit)
         {
-            return this.GetAmount(unit as IUnit<Energy>);
+            return this.GetAmount(unit as IUnit<AbsorbedDose>);
         }
 
         /// <summary>
         /// Gets a new unit specific measure based on this measure but in the <paramref name="unit">specified unit</paramref>
         /// </summary>
         /// <param name="unit">Unit in which the new measure should be specified</param>
-        /// <exception cref="ArgumentNullException">if specified unit is null or if specified unit is not of the Energy quantity.</exception>
+        /// <exception cref="ArgumentNullException">if specified unit is null or if specified unit is not of the AbsorbedDose quantity.</exception>
         IMeasure IMeasure.this[IUnit unit]
         {
-            get { return this[unit as IUnit<Energy>]; }
+            get { return this[unit as IUnit<AbsorbedDose>]; }
         }
 
         /// <summary>
         /// Gets the quantity-typed unit of measure
         /// </summary>
         /// <remarks>Always return the standard unit of measure</remarks>
-        public IUnit<Energy> Unit
+        public IUnit<AbsorbedDose> Unit
         {
             get { return this.StandardUnit; }
         }
@@ -275,7 +242,7 @@
         /// </summary>
         /// <param name="unit">Unit to which the measured amount should be converted</param>
         /// <returns>Measured amount converted into <paramref name="unit">specified unit</paramref></returns>
-        public AmountType GetAmount(IUnit<Energy> unit)
+        public AmountType GetAmount(IUnit<AbsorbedDose> unit)
         {
             if (unit == null) throw new ArgumentNullException("unit");
             return unit.ConvertStandardAmountToUnit(this.amount);
@@ -285,7 +252,7 @@
         /// Gets a new unit specific measure based on this measure but in the <paramref name="unit">specified unit</paramref>
         /// </summary>
         /// <param name="unit">Unit in which the new measure should be specified</param>
-        IMeasure<Energy> IMeasure<Energy>.this[IUnit<Energy> unit]
+        IMeasure<AbsorbedDose> IMeasure<AbsorbedDose>.this[IUnit<AbsorbedDose> unit]
         {
             get { return this[unit]; }
         }
@@ -297,7 +264,7 @@
         /// true if the current object is equal to the <paramref name="other"/> parameter; otherwise, false.
         /// </returns>
         /// <param name="other">An object to compare with this object.</param>
-        bool IEquatable<IMeasure<Energy>>.Equals(IMeasure<Energy> other)
+        bool IEquatable<IMeasure<AbsorbedDose>>.Equals(IMeasure<AbsorbedDose> other)
         {
             if (ReferenceEquals(null, other)) return false;
             return this.amount.Equals(other.StandardAmount);
@@ -312,7 +279,7 @@
         /// <param name="other">An object to compare with this object.</param>
         bool IEquatable<IMeasure>.Equals(IMeasure other)
         {
-            return this.Equals(other as IMeasure<Energy>);
+            return this.Equals(other as IMeasure<AbsorbedDose>);
         }
 
         /// <summary>
@@ -326,7 +293,7 @@
         ///    Greater than zero  This object is greater than <paramref name="other"/>. 
         /// </returns>
         /// <param name="other">An object to compare with this object.</param>
-        int IComparable<IMeasure<Energy>>.CompareTo(IMeasure<Energy> other)
+        int IComparable<IMeasure<AbsorbedDose>>.CompareTo(IMeasure<AbsorbedDose> other)
         {
             if (other == null) throw new ArgumentNullException("other");
             return this.amount.CompareTo(other.StandardAmount);
@@ -346,13 +313,13 @@
         int IComparable<IMeasure>.CompareTo(IMeasure other)
         {
             if (other == null) throw new ArgumentNullException("other");
-            if (!(other.Unit.Quantity is IMeasure<Energy>)) throw new ArgumentException("Measures are of different quantities");
+            if (!(other.Unit.Quantity is IMeasure<AbsorbedDose>)) throw new ArgumentException("Measures are of different quantities");
             return this.amount.CompareTo(other.StandardAmount);
         }
 
         #endregion
 
-        #region Implementation of IEquatable<Energy>
+        #region Implementation of IEquatable<AbsorbedDose>
 
         /// <summary>
         /// Indicates whether the current object is equal to another object of the same type.
@@ -361,14 +328,14 @@
         /// true if the current object is equal to the <paramref name="other"/> parameter; otherwise, false.
         /// </returns>
         /// <param name="other">An object to compare with this object.</param>
-        public bool Equals(Energy other)
+        public bool Equals(AbsorbedDose other)
         {
             return this.amount.Equals(other.amount);
         }
 
         #endregion
 
-        #region Implementation of IComparable<Energy>
+        #region Implementation of IComparable<AbsorbedDose>
 
         /// <summary>
         /// Compares the current object with another object of the same type.
@@ -381,7 +348,7 @@
         ///    Greater than zero  This object is greater than <paramref name="other"/>. 
         /// </returns>
         /// <param name="other">An object to compare with this object.</param>
-        public int CompareTo(Energy other)
+        public int CompareTo(AbsorbedDose other)
         {
             return this.amount.CompareTo(other.amount);
         }
@@ -394,12 +361,12 @@
         /// Gets a new unit preserving measure based on this measure but in the <paramref name="unit">specified unit</paramref>
         /// </summary>
         /// <param name="unit">Unit in which the new measure should be specified</param>
-        public Measure<Energy> this[IUnit<Energy> unit]
+        public Measure<AbsorbedDose> this[IUnit<AbsorbedDose> unit]
         {
             get
             {
                 if (unit == null) throw new ArgumentNullException("unit");
-                return new Measure<Energy>(this.GetAmount(unit), unit);
+                return new Measure<AbsorbedDose>(this.GetAmount(unit), unit);
             }
         }
 
@@ -407,9 +374,9 @@
 
         #region PROPERTIES
 
-        public static Energy Zero { get; private set; }
+        public static AbsorbedDose Zero { get; private set; }
 
-        public static Energy Epsilon { get; private set; }
+        public static AbsorbedDose Epsilon { get; private set; }
 
         #endregion
 
@@ -426,7 +393,7 @@
         /// <filterpriority>2</filterpriority>
         public override bool Equals(object obj)
         {
-            return obj is IMeasure<Energy> && this.Equals((IMeasure<Energy>)obj);
+            return obj is IMeasure<AbsorbedDose> && this.Equals((IMeasure<AbsorbedDose>)obj);
         }
 
         /// <summary>
@@ -489,33 +456,33 @@
         #region OPERATORS
 
         /// <summary>
-        /// Casts a double value to a Energy object
+        /// Casts a double value to a AbsorbedDose object
         /// </summary>
         /// <param name="standardAmount">Standard amount</param>
-        /// <returns>Energy representation of <paramref name="standardAmount"/> in unit Joule</returns>
-        public static explicit operator Energy(double standardAmount)
+        /// <returns>AbsorbedDose representation of <paramref name="standardAmount"/> in unit Gray</returns>
+        public static explicit operator AbsorbedDose(double standardAmount)
         {
-            return new Energy(standardAmount);
+            return new AbsorbedDose(standardAmount);
         }
 
         /// <summary>
-        /// Casts a float value to a Energy object
+        /// Casts a float value to a AbsorbedDose object
         /// </summary>
         /// <param name="standardAmount">Standard amount</param>
-        /// <returns>Energy representation of <paramref name="standardAmount"/> in unit Joule</returns>
-        public static explicit operator Energy(float standardAmount)
+        /// <returns>AbsorbedDose representation of <paramref name="standardAmount"/> in unit Gray</returns>
+        public static explicit operator AbsorbedDose(float standardAmount)
         {
-            return new Energy(standardAmount);
+            return new AbsorbedDose(standardAmount);
         }
 
         /// <summary>
-        /// Casts a decimal value to a Energy object
+        /// Casts a decimal value to a AbsorbedDose object
         /// </summary>
         /// <param name="standardAmount">Standard amount</param>
-        /// <returns>Energy representation of <paramref name="standardAmount"/> in unit Joule</returns>
-        public static explicit operator Energy(decimal standardAmount)
+        /// <returns>AbsorbedDose representation of <paramref name="standardAmount"/> in unit Gray</returns>
+        public static explicit operator AbsorbedDose(decimal standardAmount)
         {
-            return new Energy(standardAmount);
+            return new AbsorbedDose(standardAmount);
         }
 
         /// <summary>
@@ -524,9 +491,9 @@
         /// <param name="lhs">First measure term</param>
         /// <param name="rhs">Second measure term</param>
         /// <returns>Sum of the two measure objects in the unit of the <paramref name="lhs">left-hand side measure</paramref></returns>
-        public static Energy operator +(Energy lhs, Energy rhs)
+        public static AbsorbedDose operator +(AbsorbedDose lhs, AbsorbedDose rhs)
         {
-            return new Energy(lhs.amount + rhs.amount);
+            return new AbsorbedDose(lhs.amount + rhs.amount);
         }
 
         /// <summary>
@@ -535,9 +502,9 @@
         /// <param name="lhs">First measure term</param>
         /// <param name="rhs">Second measure term (any object implementing the IMeasure interface)</param>
         /// <returns>Sum of the two measure objects in the unit of the <paramref name="lhs">left-hand side measure</paramref></returns>
-        public static Energy operator +(Energy lhs, IMeasure<Energy> rhs)
+        public static AbsorbedDose operator +(AbsorbedDose lhs, IMeasure<AbsorbedDose> rhs)
         {
-            return new Energy(lhs.amount + rhs.StandardAmount);
+            return new AbsorbedDose(lhs.amount + rhs.StandardAmount);
         }
 
         /// <summary>
@@ -546,9 +513,9 @@
         /// <param name="lhs">First measure object</param>
         /// <param name="rhs">Second measure object</param>
         /// <returns>Difference of the measure objects</returns>
-        public static Energy operator -(Energy lhs, Energy rhs)
+        public static AbsorbedDose operator -(AbsorbedDose lhs, AbsorbedDose rhs)
         {
-            return new Energy(lhs.amount - rhs.amount);
+            return new AbsorbedDose(lhs.amount - rhs.amount);
         }
 
         /// <summary>
@@ -557,9 +524,9 @@
         /// <param name="lhs">First measure object</param>
         /// <param name="rhs">Second measure object (any object implementing the IMeasure interface)</param>
         /// <returns>Difference of the measure objects</returns>
-        public static Energy operator -(Energy lhs, IMeasure<Energy> rhs)
+        public static AbsorbedDose operator -(AbsorbedDose lhs, IMeasure<AbsorbedDose> rhs)
         {
-            return new Energy(lhs.amount - rhs.StandardAmount);
+            return new AbsorbedDose(lhs.amount - rhs.StandardAmount);
         }
 
         /// <summary>
@@ -568,9 +535,9 @@
         /// <param name="scalar">Floating-point scalar</param>
         /// <param name="measure">Measure object</param>
         /// <returns>Product of the scalar and the measure object</returns>
-        public static Energy operator *(double scalar, Energy measure)
+        public static AbsorbedDose operator *(double scalar, AbsorbedDose measure)
         {
-            return new Energy((AmountType)scalar * measure.amount);
+            return new AbsorbedDose((AmountType)scalar * measure.amount);
         }
 
         /// <summary>
@@ -579,9 +546,9 @@
         /// <param name="scalar">Floating-point scalar</param>
         /// <param name="measure">Measure object</param>
         /// <returns>Product of the scalar and the measure object</returns>
-        public static Energy operator *(float scalar, Energy measure)
+        public static AbsorbedDose operator *(float scalar, AbsorbedDose measure)
         {
-            return new Energy((AmountType)scalar * measure.amount);
+            return new AbsorbedDose((AmountType)scalar * measure.amount);
         }
 
         /// <summary>
@@ -590,9 +557,9 @@
         /// <param name="scalar">Floating-point scalar</param>
         /// <param name="measure">Measure object</param>
         /// <returns>Product of the scalar and the measure object</returns>
-        public static Energy operator *(decimal scalar, Energy measure)
+        public static AbsorbedDose operator *(decimal scalar, AbsorbedDose measure)
         {
-            return new Energy((AmountType)scalar * measure.amount);
+            return new AbsorbedDose((AmountType)scalar * measure.amount);
         }
 
         /// <summary>
@@ -601,9 +568,9 @@
         /// <param name="measure">Measure object</param>
         /// <param name="scalar">Floating-point scalar</param>
         /// <returns>Product of the measure object and the scalar</returns>
-        public static Energy operator *(Energy measure, double scalar)
+        public static AbsorbedDose operator *(AbsorbedDose measure, double scalar)
         {
-            return new Energy(measure.amount * (AmountType)scalar);
+            return new AbsorbedDose(measure.amount * (AmountType)scalar);
         }
 
         /// <summary>
@@ -612,9 +579,9 @@
         /// <param name="measure">Measure object</param>
         /// <param name="scalar">Floating-point scalar</param>
         /// <returns>Product of the measure object and the scalar</returns>
-        public static Energy operator *(Energy measure, float scalar)
+        public static AbsorbedDose operator *(AbsorbedDose measure, float scalar)
         {
-            return new Energy(measure.amount * (AmountType)scalar);
+            return new AbsorbedDose(measure.amount * (AmountType)scalar);
         }
 
         /// <summary>
@@ -623,9 +590,9 @@
         /// <param name="measure">Measure object</param>
         /// <param name="scalar">Floating-point scalar</param>
         /// <returns>Product of the measure object and the scalar</returns>
-        public static Energy operator *(Energy measure, decimal scalar)
+        public static AbsorbedDose operator *(AbsorbedDose measure, decimal scalar)
         {
-            return new Energy(measure.amount * (AmountType)scalar);
+            return new AbsorbedDose(measure.amount * (AmountType)scalar);
         }
 
         /// <summary>
@@ -634,9 +601,9 @@
         /// <param name="measure">Measure object</param>
         /// <param name="scalar">Floating-point number</param>
         /// <returns>Product of the measure object and the number</returns>
-        public static Energy operator *(Energy measure, IMeasure<Number> scalar)
+        public static AbsorbedDose operator *(AbsorbedDose measure, IMeasure<Number> scalar)
         {
-            return new Energy(measure.amount * scalar.StandardAmount);
+            return new AbsorbedDose(measure.amount * scalar.StandardAmount);
         }
 
         /// <summary>
@@ -645,9 +612,9 @@
         /// <param name="measure">measure object</param>
         /// <param name="scalar">Floating-point scalar</param>
         /// <returns>Quotient of the measure object and the scalar</returns>
-        public static Energy operator /(Energy measure, double scalar)
+        public static AbsorbedDose operator /(AbsorbedDose measure, double scalar)
         {
-            return new Energy(measure.amount / (AmountType)scalar);
+            return new AbsorbedDose(measure.amount / (AmountType)scalar);
         }
 
         /// <summary>
@@ -656,9 +623,9 @@
         /// <param name="measure">measure object</param>
         /// <param name="scalar">Floating-point scalar</param>
         /// <returns>Quotient of the measure object and the scalar</returns>
-        public static Energy operator /(Energy measure, float scalar)
+        public static AbsorbedDose operator /(AbsorbedDose measure, float scalar)
         {
-            return new Energy(measure.amount / (AmountType)scalar);
+            return new AbsorbedDose(measure.amount / (AmountType)scalar);
         }
 
         /// <summary>
@@ -667,9 +634,9 @@
         /// <param name="measure">measure object</param>
         /// <param name="scalar">Floating-point scalar</param>
         /// <returns>Quotient of the measure object and the scalar</returns>
-        public static Energy operator /(Energy measure, decimal scalar)
+        public static AbsorbedDose operator /(AbsorbedDose measure, decimal scalar)
         {
-            return new Energy(measure.amount / (AmountType)scalar);
+            return new AbsorbedDose(measure.amount / (AmountType)scalar);
         }
 
         /// <summary>
@@ -678,9 +645,9 @@
         /// <param name="measure">measure object</param>
         /// <param name="scalar">Floating-point number</param>
         /// <returns>Quotient of the measure object and the number</returns>
-        public static Energy operator /(Energy measure, IMeasure<Number> scalar)
+        public static AbsorbedDose operator /(AbsorbedDose measure, IMeasure<Number> scalar)
         {
-            return new Energy(measure.amount / scalar.StandardAmount);
+            return new AbsorbedDose(measure.amount / scalar.StandardAmount);
         }
 
         /// <summary>
@@ -689,7 +656,7 @@
         /// <param name="dividend">Dividend of specific quantity</param>
         /// <param name="divisor">Divisor of same quantity as dividend</param>
         /// <returns>Quotient of the two measure objects</returns>
-        public static Number operator /(Energy dividend, Energy divisor)
+        public static Number operator /(AbsorbedDose dividend, AbsorbedDose divisor)
         {
             return new Number(dividend.amount / divisor.amount);
         }
@@ -700,7 +667,7 @@
         /// <param name="dividend">Dividend of specific quantity</param>
         /// <param name="divisor">Divisor of same quantity as dividend</param>
         /// <returns>Quotient of the two measure objects</returns>
-        public static Number operator /(Energy dividend, IMeasure<Energy> divisor)
+        public static Number operator /(AbsorbedDose dividend, IMeasure<AbsorbedDose> divisor)
         {
             return new Number(dividend.amount / divisor.StandardAmount);
         }
@@ -711,29 +678,29 @@
         /// <param name="lhs">First object</param>
         /// <param name="rhs">Second object</param>
         /// <returns>true if first measure object is less than second measure object; false otherwise</returns>
-        public static bool operator <(Energy lhs, Energy rhs)
+        public static bool operator <(AbsorbedDose lhs, AbsorbedDose rhs)
         {
             return lhs.amount < rhs.amount;
         }
 
         /// <summary>
-        /// Less than operator for measure objects, where right-hand side may be any object implementing the IMeasure&lt;Energy&gt; interface
+        /// Less than operator for measure objects, where right-hand side may be any object implementing the IMeasure&lt;AbsorbedDose&gt; interface
         /// </summary>
         /// <param name="lhs">First object</param>
-        /// <param name="rhs">Second object (any object implementing IMeasure&lt;Energy&gt; interface)</param>
+        /// <param name="rhs">Second object (any object implementing IMeasure&lt;AbsorbedDose&gt; interface)</param>
         /// <returns>true if first measure object is less than second measure object; false otherwise</returns>
-        public static bool operator <(Energy lhs, IMeasure<Energy> rhs)
+        public static bool operator <(AbsorbedDose lhs, IMeasure<AbsorbedDose> rhs)
         {
             return lhs.amount < rhs.StandardAmount;
         }
 
         /// <summary>
-        /// Less than operator for measure objects, where left-hand side may be any object implementing the IMeasure&lt;Energy&gt; interface
+        /// Less than operator for measure objects, where left-hand side may be any object implementing the IMeasure&lt;AbsorbedDose&gt; interface
         /// </summary>
-        /// <param name="lhs">First object (any object implementing IMeasure&lt;Energy&gt; interface)</param>
+        /// <param name="lhs">First object (any object implementing IMeasure&lt;AbsorbedDose&gt; interface)</param>
         /// <param name="rhs">Second object</param>
         /// <returns>true if first measure object is less than second measure object; false otherwise</returns>
-        public static bool operator <(IMeasure<Energy> lhs, Energy rhs)
+        public static bool operator <(IMeasure<AbsorbedDose> lhs, AbsorbedDose rhs)
         {
             return lhs.StandardAmount < rhs.amount;
         }
@@ -744,29 +711,29 @@
         /// <param name="lhs">First object</param>
         /// <param name="rhs">Second object</param>
         /// <returns>true if first measure object is greater than second measure object; false otherwise</returns>
-        public static bool operator >(Energy lhs, Energy rhs)
+        public static bool operator >(AbsorbedDose lhs, AbsorbedDose rhs)
         {
             return lhs.amount > rhs.amount;
         }
 
         /// <summary>
-        /// Greater than operator for measure objects, where right-hand side may be any object implementing the IMeasure&lt;Energy&gt; interface
+        /// Greater than operator for measure objects, where right-hand side may be any object implementing the IMeasure&lt;AbsorbedDose&gt; interface
         /// </summary>
         /// <param name="lhs">First object</param>
-        /// <param name="rhs">Second object (any object implementing IMeasure&lt;Energy&gt; interface)</param>
+        /// <param name="rhs">Second object (any object implementing IMeasure&lt;AbsorbedDose&gt; interface)</param>
         /// <returns>true if first measure object is greater than second measure object; false otherwise</returns>
-        public static bool operator >(Energy lhs, IMeasure<Energy> rhs)
+        public static bool operator >(AbsorbedDose lhs, IMeasure<AbsorbedDose> rhs)
         {
             return lhs.amount > rhs.StandardAmount;
         }
 
         /// <summary>
-        /// Greater than operator for measure objects, where left-hand side may be any object implementing the IMeasure&lt;Energy&gt; interface
+        /// Greater than operator for measure objects, where left-hand side may be any object implementing the IMeasure&lt;AbsorbedDose&gt; interface
         /// </summary>
-        /// <param name="lhs">First object (any object implementing IMeasure&lt;Energy&gt; interface)</param>
+        /// <param name="lhs">First object (any object implementing IMeasure&lt;AbsorbedDose&gt; interface)</param>
         /// <param name="rhs">Second object</param>
         /// <returns>true if first measure object is greater than second measure object; false otherwise</returns>
-        public static bool operator >(IMeasure<Energy> lhs, Energy rhs)
+        public static bool operator >(IMeasure<AbsorbedDose> lhs, AbsorbedDose rhs)
         {
             return lhs.StandardAmount > rhs.amount;
         }
@@ -777,29 +744,29 @@
         /// <param name="lhs">First object</param>
         /// <param name="rhs">Second object</param>
         /// <returns>true if first measure object is less than or equal to second measure object; false otherwise</returns>
-        public static bool operator <=(Energy lhs, Energy rhs)
+        public static bool operator <=(AbsorbedDose lhs, AbsorbedDose rhs)
         {
             return lhs.amount <= rhs.amount;
         }
 
         /// <summary>
-        /// Less than or equal to operator for measure objects, where right-hand side may be any object implementing the IMeasure&lt;Energy&gt; interface
+        /// Less than or equal to operator for measure objects, where right-hand side may be any object implementing the IMeasure&lt;AbsorbedDose&gt; interface
         /// </summary>
         /// <param name="lhs">First object</param>
-        /// <param name="rhs">Second object (any object implementing IMeasure&lt;Energy&gt; interface)</param>
+        /// <param name="rhs">Second object (any object implementing IMeasure&lt;AbsorbedDose&gt; interface)</param>
         /// <returns>true if first measure object is less than or equal to second measure object; false otherwise</returns>
-        public static bool operator <=(Energy lhs, IMeasure<Energy> rhs)
+        public static bool operator <=(AbsorbedDose lhs, IMeasure<AbsorbedDose> rhs)
         {
             return lhs.amount <= rhs.StandardAmount;
         }
 
         /// <summary>
-        /// Less than or equal to operator for measure objects, where left-hand side may be any object implementing the IMeasure&lt;Energy&gt; interface
+        /// Less than or equal to operator for measure objects, where left-hand side may be any object implementing the IMeasure&lt;AbsorbedDose&gt; interface
         /// </summary>
-        /// <param name="lhs">First object (any object implementing IMeasure&lt;Energy&gt; interface)</param>
+        /// <param name="lhs">First object (any object implementing IMeasure&lt;AbsorbedDose&gt; interface)</param>
         /// <param name="rhs">Second object</param>
         /// <returns>true if first measure object is less than or equal to second measure object; false otherwise</returns>
-        public static bool operator <=(IMeasure<Energy> lhs, Energy rhs)
+        public static bool operator <=(IMeasure<AbsorbedDose> lhs, AbsorbedDose rhs)
         {
             return lhs.StandardAmount <= rhs.amount;
         }
@@ -810,29 +777,29 @@
         /// <param name="lhs">First object</param>
         /// <param name="rhs">Second object</param>
         /// <returns>true if first measure object is greater than or equal to second measure object; false otherwise</returns>
-        public static bool operator >=(Energy lhs, Energy rhs)
+        public static bool operator >=(AbsorbedDose lhs, AbsorbedDose rhs)
         {
             return lhs.amount >= rhs.amount;
         }
 
         /// <summary>
-        /// Greater than or equal to operator for measure objects, where right-hand side may be any object implementing the IMeasure&lt;Energy&gt; interface
+        /// Greater than or equal to operator for measure objects, where right-hand side may be any object implementing the IMeasure&lt;AbsorbedDose&gt; interface
         /// </summary>
         /// <param name="lhs">First object</param>
-        /// <param name="rhs">Second object (any object implementing IMeasure&lt;Energy&gt; interface)</param>
+        /// <param name="rhs">Second object (any object implementing IMeasure&lt;AbsorbedDose&gt; interface)</param>
         /// <returns>true if first measure object is greater than or equal to second measure object; false otherwise</returns>
-        public static bool operator >=(Energy lhs, IMeasure<Energy> rhs)
+        public static bool operator >=(AbsorbedDose lhs, IMeasure<AbsorbedDose> rhs)
         {
             return lhs.amount >= rhs.StandardAmount;
         }
 
         /// <summary>
-        /// Greater than or equal to operator for measure objects, where left-hand side may be any object implementing the IMeasure&lt;Energy&gt; interface
+        /// Greater than or equal to operator for measure objects, where left-hand side may be any object implementing the IMeasure&lt;AbsorbedDose&gt; interface
         /// </summary>
-        /// <param name="lhs">First object (any object implementing IMeasure&lt;Energy&gt; interface)</param>
+        /// <param name="lhs">First object (any object implementing IMeasure&lt;AbsorbedDose&gt; interface)</param>
         /// <param name="rhs">Second object</param>
         /// <returns>true if first measure object is greater than or equal to second measure object; false otherwise</returns>
-        public static bool operator >=(IMeasure<Energy> lhs, Energy rhs)
+        public static bool operator >=(IMeasure<AbsorbedDose> lhs, AbsorbedDose rhs)
         {
             return lhs.StandardAmount >= rhs.amount;
         }
@@ -843,29 +810,29 @@
         /// <param name="lhs">First object</param>
         /// <param name="rhs">Second object</param>
         /// <returns>true if the two measure objects are equal; false otherwise</returns>
-        public static bool operator ==(Energy lhs, Energy rhs)
+        public static bool operator ==(AbsorbedDose lhs, AbsorbedDose rhs)
         {
             return lhs.amount == rhs.amount;
         }
 
         /// <summary>
-        /// Equality operator for measure objects, where right-hand side may be any object implementing the IMeasure&lt;Energy&gt; interface
+        /// Equality operator for measure objects, where right-hand side may be any object implementing the IMeasure&lt;AbsorbedDose&gt; interface
         /// </summary>
         /// <param name="lhs">First object</param>
-        /// <param name="rhs">Second object (any object implementing IMeasure&lt;Energy&gt; interface)</param>
+        /// <param name="rhs">Second object (any object implementing IMeasure&lt;AbsorbedDose&gt; interface)</param>
         /// <returns>true if the two measure objects are equal; false otherwise</returns>
-        public static bool operator ==(Energy lhs, IMeasure<Energy> rhs)
+        public static bool operator ==(AbsorbedDose lhs, IMeasure<AbsorbedDose> rhs)
         {
             return lhs.amount == rhs.StandardAmount;
         }
 
         /// <summary>
-        /// Equality operator for measure objects, where left-hand side may be any object implementing the IMeasure&lt;Energy&gt; interface
+        /// Equality operator for measure objects, where left-hand side may be any object implementing the IMeasure&lt;AbsorbedDose&gt; interface
         /// </summary>
-        /// <param name="lhs">First object (any object implementing IMeasure&lt;Energy&gt; interface)</param>
+        /// <param name="lhs">First object (any object implementing IMeasure&lt;AbsorbedDose&gt; interface)</param>
         /// <param name="rhs">Second object</param>
         /// <returns>true if the two measure objects are equal; false otherwise</returns>
-        public static bool operator ==(IMeasure<Energy> lhs, Energy rhs)
+        public static bool operator ==(IMeasure<AbsorbedDose> lhs, AbsorbedDose rhs)
         {
             return lhs.StandardAmount == rhs.amount;
         }
@@ -876,47 +843,47 @@
         /// <param name="lhs">First object</param>
         /// <param name="rhs">Second object</param>
         /// <returns>true if the two measure objects are not equal; false if they are equal</returns>
-        public static bool operator !=(Energy lhs, Energy rhs)
+        public static bool operator !=(AbsorbedDose lhs, AbsorbedDose rhs)
         {
             return lhs.amount != rhs.amount;
         }
 
         /// <summary>
-        /// Inequality operator for measure objects, where right-hand side may be any object implementing the IMeasure&lt;Energy&gt; interface
+        /// Inequality operator for measure objects, where right-hand side may be any object implementing the IMeasure&lt;AbsorbedDose&gt; interface
         /// </summary>
         /// <param name="lhs">First object</param>
-        /// <param name="rhs">Second object (any object implementing IMeasure&lt;Energy&gt; interface)</param>
+        /// <param name="rhs">Second object (any object implementing IMeasure&lt;AbsorbedDose&gt; interface)</param>
         /// <returns>true if the two measure objects are not equal; false if they are equal</returns>
-        public static bool operator !=(Energy lhs, IMeasure<Energy> rhs)
+        public static bool operator !=(AbsorbedDose lhs, IMeasure<AbsorbedDose> rhs)
         {
             return lhs.amount != rhs.StandardAmount;
         }
 
         /// <summary>
-        /// Inequality operator for measure objects, where left-hand side may be any object implementing the IMeasure&lt;Energy&gt; interface
+        /// Inequality operator for measure objects, where left-hand side may be any object implementing the IMeasure&lt;AbsorbedDose&gt; interface
         /// </summary>
-        /// <param name="lhs">First object (any object implementing IMeasure&lt;Energy&gt; interface)</param>
+        /// <param name="lhs">First object (any object implementing IMeasure&lt;AbsorbedDose&gt; interface)</param>
         /// <param name="rhs">Second object</param>
         /// <returns>true if the two measure objects are not equal; false if they are equal</returns>
-        public static bool operator !=(IMeasure<Energy> lhs, Energy rhs)
+        public static bool operator !=(IMeasure<AbsorbedDose> lhs, AbsorbedDose rhs)
         {
             return lhs.StandardAmount != rhs.amount;
         }
 
         #endregion
 
-        #region Private class implementation of IMeasureFactory<Energy>
+        #region Private class implementation of IMeasureFactory<AbsorbedDose>
 
-        private class MeasureFactory : IMeasureFactory<Energy>
+        private class MeasureFactory : IMeasureFactory<AbsorbedDose>
         {
             /// <summary>
             /// Creates a new standard unit measure at the specified <paramref name="amount"/>.
             /// </summary>
             /// <param name="amount">Amount.</param>
             /// <returns>Standard unit measure at the specified <paramref name="amount"/>.</returns>
-            public Energy New(double amount)
+            public AbsorbedDose New(double amount)
             {
-                return new Energy(amount);
+                return new AbsorbedDose(amount);
             }
 
             /// <summary>
@@ -925,9 +892,9 @@
             /// <param name="amount">Amount.</param>
             /// <param name="unit">Unit.</param>
             /// <returns>Standard unit measure.</returns>
-            public Energy New(double amount, IUnit<Energy> unit)
+            public AbsorbedDose New(double amount, IUnit<AbsorbedDose> unit)
             {
-                return new Energy(amount, unit);
+                return new AbsorbedDose(amount, unit);
             }
 
             /// <summary>
@@ -935,9 +902,9 @@
             /// </summary>
             /// <param name="amount">Amount.</param>
             /// <returns>Standard unit measure at the specified <paramref name="amount"/>.</returns>
-            public Energy New(float amount)
+            public AbsorbedDose New(float amount)
             {
-                return new Energy(amount);
+                return new AbsorbedDose(amount);
             }
 
             /// <summary>
@@ -946,9 +913,9 @@
             /// <param name="amount">Amount.</param>
             /// <param name="unit">Unit.</param>
             /// <returns>Standard unit measure.</returns>
-            public Energy New(float amount, IUnit<Energy> unit)
+            public AbsorbedDose New(float amount, IUnit<AbsorbedDose> unit)
             {
-                return new Energy(amount, unit);
+                return new AbsorbedDose(amount, unit);
             }
 
             /// <summary>
@@ -956,9 +923,9 @@
             /// </summary>
             /// <param name="amount">Amount.</param>
             /// <returns>Standard unit measure at the specified <paramref name="amount"/>.</returns>
-            public Energy New(decimal amount)
+            public AbsorbedDose New(decimal amount)
             {
-                return new Energy(amount);
+                return new AbsorbedDose(amount);
             }
 
             /// <summary>
@@ -967,9 +934,9 @@
             /// <param name="amount">Amount.</param>
             /// <param name="unit">Unit.</param>
             /// <returns>Standard unit measure.</returns>
-            public Energy New(decimal amount, IUnit<Energy> unit)
+            public AbsorbedDose New(decimal amount, IUnit<AbsorbedDose> unit)
             {
-                return new Energy(amount, unit);
+                return new AbsorbedDose(amount, unit);
             }
 
             /// <summary>
@@ -978,9 +945,9 @@
             /// <param name="amount">Amount.</param>
             /// <param name="unit">Unit.</param>
             /// <returns>Measure from the specified <paramref name="amount"/> and <paramref name="unit"/>.</returns>
-            public IMeasure<Energy> NewPreserveUnit(double amount, IUnit<Energy> unit)
+            public IMeasure<AbsorbedDose> NewPreserveUnit(double amount, IUnit<AbsorbedDose> unit)
             {
-                return new Measure<Energy>(amount, unit);
+                return new Measure<AbsorbedDose>(amount, unit);
             }
 
             /// <summary>
@@ -989,9 +956,9 @@
             /// <param name="amount">Amount.</param>
             /// <param name="unit">Unit.</param>
             /// <returns>Measure from the specified <paramref name="amount"/> and <paramref name="unit"/>.</returns>
-            public IMeasure<Energy> NewPreserveUnit(float amount, IUnit<Energy> unit)
+            public IMeasure<AbsorbedDose> NewPreserveUnit(float amount, IUnit<AbsorbedDose> unit)
             {
-                return new Measure<Energy>(amount, unit);
+                return new Measure<AbsorbedDose>(amount, unit);
             }
 
             /// <summary>
@@ -1000,13 +967,12 @@
             /// <param name="amount">Amount.</param>
             /// <param name="unit">Unit.</param>
             /// <returns>Measure from the specified <paramref name="amount"/> and <paramref name="unit"/>.</returns>
-            public IMeasure<Energy> NewPreserveUnit(decimal amount, IUnit<Energy> unit)
+            public IMeasure<AbsorbedDose> NewPreserveUnit(decimal amount, IUnit<AbsorbedDose> unit)
             {
-                return new Measure<Energy>(amount, unit);
+                return new Measure<AbsorbedDose>(amount, unit);
             }
         }
 
         #endregion
-
     }
 }
