@@ -11,8 +11,11 @@
 </h1> 
 C# Electron volt unit converter   
 
-Remark: 
-  `This project is part of a closed project ElementarySandbox`  
+Remark:       
+  `This project is part of a closed project ElementarySandbox`      
+
+### Install   
+`dotnet add package eV.Measure --version 1.3.0`
 
 ### etc
 ```
